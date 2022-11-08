@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager navManager
+
+<AuthorizeView>
+    <Authorized>
+        <div class="row mt-5 d-md-flex justify-content-center">
+            <a class="mt-4 mr-2" style="color: white; font-size: 25px; font-weight: 700" href="Identity/Account/Manage">HELLO, <span style="color: greenyellow">@context.User.Identity.Name.ToUpper()</span>!</a>          
+        </div>
+        <div class="row d-md-flex justify-content-center">
+            <form class="py-2 d-none d-md-inline-block" action="Identity/Account/Logout?returnUrl=%2F" method="post">
+                <button type="submit" class="nav-link btn btn-link" style="font-size:21px; font-weight:600; color: #cdcdcd">Log out</button>
+            </form>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register" class="btn btn-outline-light mr-1 px-4 h-30" style="font-weight: 600; width: 150px">REGISTER</a>
+        <a href="Identity/Account/Login" class="btn-login btn ml-1 px-4 h-30">LOG IN</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+

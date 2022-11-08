@@ -1,0 +1,88 @@
+﻿@page "/editproduct/{productId}"
+@attribute [Authorize(Policy = "AdminOnly")]
+
+@inject NavigationManager navManager
+@inject IEditProductUseCase editProductUseCase
+@inject IGetProductByIDUseCase getProductByIDUseCase
+@inject IViewCategoriesUseCase viewCategoriesUseCase
+
+<div class="wrapper">
+    <h3 style="color: white">Edit Product</h3>
+    <br />
+
+    @if (product != null)
+    {
+        <EditForm Model="product" OnValidSubmit="OnValidSumit">
+            <DataAnnotationsValidator /> <ValidationSummary />
+            <div class="form-group">
+                <label for="name" style="font-weight: 600; color: #cdcdcd">Name</label>
+                <InputText id="name" @bind-Value="product.Name" class="form-control"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="category" style="font-weight: 600; color: #cdcdcd">Category</label>
+                <select id="category" @bind="product.CategoryID" class="form-control">
+                    <option selected></option>
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.CategoryID">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price" style="font-weight: 600; color: #cdcdcd">Price</label>
+                <InputNumber id="price" @bind-Value="product.Price" @bind-Value:format="F2" class="form-control"></InputNumber>
+            </div>
+            <div class="form-group">
+                <label for="qty" style="font-weight: 600; color: #cdcdcd">Quantity</label>
+                <InputNumber id="qty" @bind-Value="product.Quantity" class="form-control"></InputNumber>
+            </div>
+            <div class="form-group">
+                <label for="unit" style="font-weight: 600; color: #cdcdcd">Unit</label>
+                <InputText id="unit" @bind-Value="product.Unit" class="form-control"></InputText>
+            </div>
+
+            <button type="submit" class="btn btn-outline-light">Save</button>
+            <button type="button" class="btn btn-dark" @onclick="OnCancel">Cancel</button>
+        </EditForm>
+    }
+</div>
+
+@code {
+
+    [Parameter] public string ProductId { get; set; }
+    Product product;
+
+    IEnumerable<Category> categories;
+
+    protected override void OnInitialized()
+    {
+        categories = viewCategoriesUseCase.Execute();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (int.TryParse(this.ProductId, out int iProductId))
+        {
+            var cat = getProductByIDUseCase.Execute(iProductId);
+            this.product = new Product
+            {
+                ProductID = cat.ProductID,
+                Name = cat.Name,
+                CategoryID = cat.CategoryID,
+                Price = cat.Price,
+                Quantity = cat.Quantity,
+                Unit = cat.Unit
+            };
+        }
+    }
+
+    private void OnValidSumit()
+    {
+        editProductUseCase.Execute(this.product);
+        navManager.NavigateTo("/products");
+    }
+    private void OnCancel()
+    {
+        navManager.NavigateTo("/products");
+    }
+}

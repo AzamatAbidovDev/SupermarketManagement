@@ -1,0 +1,72 @@
+﻿@page "/categories"
+@attribute [Authorize(Policy = "AdminOnly")]
+
+@inject IViewCategoriesUseCase iViewCategories
+@inject IDeleteCategoryUseCase deleteCategoryUseCase
+@inject NavigationManager navManager
+
+<div class="wrapper">
+
+    <h3 style="color: white">MANAGE CATEGORIES</h3>
+    <br />
+
+    @if (categories != null)
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr style="color: #cdcdcd; font-size: 27px">
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in categories)
+                {
+                    <tr style="color: white; font-weight: 600; font-size: 22px">
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <button type="button" @onclick="@(()=>OnClickEdit(item))" class="btn" style="background-color:darkslategray; color: white">Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" @onclick="@(()=>DeleteCategory(item.CategoryID))" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <br />
+    <button type="button" class="btn btn-primary" @onclick="OnClickAdd">Add Category</button>
+</div>
+
+@code {
+
+    private List<Category> categories;
+
+    protected override void OnInitialized()
+    {
+        LoadCategories();
+    }
+
+    private void OnClickAdd()
+    {
+        navManager.NavigateTo("/addcategory");
+    }
+    private void OnClickEdit(Category category)
+    {
+        navManager.NavigateTo($"/editcategory/{category.CategoryID}");
+    }
+    private void DeleteCategory(int categoryId)
+    {
+        deleteCategoryUseCase.Delete(categoryId);
+        LoadCategories();
+    }
+    private void LoadCategories()
+    {
+        categories = iViewCategories.Execute()?.ToList();
+    }
+}

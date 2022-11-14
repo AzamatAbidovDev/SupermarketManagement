@@ -12,9 +12,9 @@ namespace UseCases
         {
             productRepository = _productRepository;
         }
-        public void Delete(int productId)
+        public void Delete(Product product)
         {
-            productRepository.DeleteProduct(productId);
+            productRepository.DeleteProduct(product);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace UseCases.DataStorePluginIntefaces
         void AddProduct(Product product);
         void UpdateProduct(Product product);
         Product GetProductByID(int productId);
-        void DeleteProduct(int productId);
+        bool DeleteProduct(Product product);
         IEnumerable<Product> GetProductsByCategory(int categoryId);
     }
 }

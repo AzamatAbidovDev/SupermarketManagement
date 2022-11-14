@@ -20,13 +20,13 @@ namespace PluginsDataStoreSQL
             db.SaveChanges();
         }
 
-        public void DeleteProduct(int productId)
+        public bool DeleteProduct(Product product)
         {
-            var product = db.Products.Find(productId);
-            if (product == null) return;
+            if (product == null) return false;
 
             db.Products.Remove(product);
             db.SaveChanges();
+            return true;
         }
 
         public Product GetProductByID(int productId)

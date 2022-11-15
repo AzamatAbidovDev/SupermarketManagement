@@ -20,13 +20,13 @@ namespace PluginsDataStoreSQL
             db.SaveChanges();
         }
 
-        public void DeleteCategory(int categoryId)
+        public bool DeleteCategory(Category category)
         {
-            var category = db.Categories.Find(categoryId);
-            if (category == null) return;
+            if (category == null) return false;
 
             db.Categories.Remove(category);
             db.SaveChanges();
+            return true;
         }
 
         public IEnumerable<Category> GetCategories()

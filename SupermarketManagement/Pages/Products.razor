@@ -39,11 +39,11 @@
                         </td>
                     </tr>
                 }
-                <Confirmation @ref="confirmation" onCancel="OnCancel" onConfirm="OnConfirm">
-                    <div style="font-size: 24px; color: blue">Do you want to delete <span style="color: darkred">@productToBeDeleted.Name</span> ?</div>
-                </Confirmation>
             </tbody>
         </table>
+        <Confirmation @ref="confirmation" onCancel="OnCancel" onConfirm="OnConfirm">
+            <div style="font-size: 24px; color: blue">Do you want to delete <span style="color: darkred">@productToBeDeleted.Name</span> ?</div>
+        </Confirmation>
     }
 
     <br />

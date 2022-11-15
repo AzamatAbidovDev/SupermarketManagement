@@ -31,12 +31,15 @@
                             <button type="button" @onclick="@(()=>OnClickEdit(item))" class="btn" style="background-color:darkslategray; color: white">Edit</button>
                         </td>
                         <td>
-                            <button type="button" @onclick="@(()=>DeleteCategory(item.CategoryID))" class="btn btn-danger">Delete</button>
+                            <button type="button" @onclick="@(()=>DeleteCategory(item))" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <Confirmation @ref="confirmation" onCancel="OnCancel" onConfirm="OnConfirm">
+            <div style="font-size: 24px; color: blue">Do you want to delete <span style="color: darkred">@categoryToBeDeleted.Name</span> ?</div>
+        </Confirmation>
     }
 
     <br />
@@ -45,27 +48,43 @@
 
 @code {
 
-    private List<Category> categories;
+    List<Category> categories;
+    Category categoryToBeDeleted;
+
+    Confirmation confirmation;
 
     protected override void OnInitialized()
     {
         LoadCategories();
     }
 
-    private void OnClickAdd()
+    void OnClickAdd()
     {
         navManager.NavigateTo("/addcategory");
     }
-    private void OnClickEdit(Category category)
+    void OnClickEdit(Category category)
     {
         navManager.NavigateTo($"/editcategory/{category.CategoryID}");
     }
-    private void DeleteCategory(int categoryId)
+    void DeleteCategory(Category category)
     {
-        deleteCategoryUseCase.Delete(categoryId);
-        LoadCategories();
+        categoryToBeDeleted = category;
+        confirmation.Show();
     }
-    private void LoadCategories()
+    void OnConfirm()
+    {
+        deleteCategoryUseCase.Delete(categoryToBeDeleted);
+        LoadCategories();
+
+        confirmation.Hide();
+        categoryToBeDeleted = null;
+    }
+    void OnCancel()
+    {
+        confirmation.Hide();
+        categoryToBeDeleted = null;
+    }
+    void LoadCategories()
     {
         categories = iViewCategories.Execute()?.ToList();
     }

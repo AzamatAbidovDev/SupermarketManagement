@@ -10,6 +10,6 @@ namespace UseCases.DataStorePluginIntefaces
         void AddCategory(Category category);
         void UpdateCategory(Category category);
         Category GetCategoryByID(int categoryId);
-        void DeleteCategory(int categoryId);
+        bool DeleteCategory(Category category);
     }
 }

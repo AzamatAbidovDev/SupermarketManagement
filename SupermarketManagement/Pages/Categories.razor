@@ -38,7 +38,7 @@
             </tbody>
         </table>
         <Confirmation @ref="confirmation" onCancel="OnCancel" onConfirm="OnConfirm">
-            <div style="font-size: 24px; color: blue">Do you want to delete <span style="color: darkred">@categoryToBeDeleted.Name</span> ?</div>
+            <div style="font-size: 24px; font-weight: 600; color: darkblue">Do you want to delete <span style="color: darkred">@categoryToBeDeleted.Name.ToUpper()</span>?</div>
         </Confirmation>
     }
 

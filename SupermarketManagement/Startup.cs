@@ -10,9 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using PluginsDataStoreSQL;
 using UseCases;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace SupermarketManagement
 {
@@ -42,6 +40,7 @@ namespace SupermarketManagement
                 options.AddPolicy("AdminOnly", p => p.RequireClaim("Position", "Admin"));
                 options.AddPolicy("CashierOnly", p => p.RequireClaim("Position", "Cashier"));
             });
+
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

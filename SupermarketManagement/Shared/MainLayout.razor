@@ -1,24 +1,30 @@
 ﻿@inherits LayoutComponentBase
 
-<header class="site-header sticky-top py-1">
-    <nav class="container d-flex flex-column flex-md-row justify-content-between">
-        <NavLink class="py-2 d-none d-md-inline-block" href="" Match="NavLinkMatch.All">
-            <span class="oi oi-home" aria-hidden="true"></span>
-        </NavLink>
-        <NavLink class="py-2 d-none d-md-inline-block" href="categories">
-            <span class="oi oi-crop" aria-hidden="true"></span> Categories
-        </NavLink>
-        <NavLink class="py-2 d-none d-md-inline-block" href="products">
-            <span class="oi oi-basket" aria-hidden="true"></span> Products
-        </NavLink>
-        <NavLink class="py-2 d-none d-md-inline-block" href="cashier_console">
-            <span class="oi oi-dollar" aria-hidden="true"></span> Sell
-        </NavLink>
-        <NavLink class="py-2 d-none d-md-inline-block" href="transactions">
-            <span class="oi oi-list-rich" aria-hidden="true"></span> Reports
-        </NavLink>
-    </nav>
-</header>
+        <header class="site-header sticky-top py-1">
+            <nav class="container d-flex flex-column flex-md-row justify-content-between">
+                <AuthorizeView>
+                    <NavLink class="py-2 d-none d-md-inline-block" href="" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span>
+                    </NavLink>
+                </AuthorizeView>
+                <AuthorizeView Policy="AdminOnly">
+                    <NavLink class="py-2 d-none d-md-inline-block" href="categories">
+                        <span class="oi oi-crop" aria-hidden="true"></span> Categories
+                    </NavLink>
+                    <NavLink class="py-2 d-none d-md-inline-block" href="products">
+                        <span class="oi oi-basket" aria-hidden="true"></span> Products
+                    </NavLink>
+                    <NavLink class="py-2 d-none d-md-inline-block" href="transactions">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Reports
+                    </NavLink>
+                </AuthorizeView>
+                <AuthorizeView Policy="CashierOnly">
+                    <NavLink class="py-2 d-none d-md-inline-block" href="cashier_console">
+                        <span class="oi oi-dollar" aria-hidden="true"></span> Sell
+                    </NavLink>
+                </AuthorizeView>
+            </nav>
+        </header>
 
 <main class="content px-4">
     @Body

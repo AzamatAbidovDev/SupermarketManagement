@@ -31,19 +31,28 @@ namespace PluginsDataStoreSQL
 
         public void Save(string cashierName, int productId, string productName, double price, double beforeQty, double soldQty, string unit)
         {
-            var transaction = new Transaction
+            var transaction = db.Transactions.FirstOrDefault(f=>f.ProductID == productId && f.TimeStamp == DateTime.Today);
+            if (transaction == null)
             {
-                ProductID = productId,
-                ProductName = productName,
-                TimeStamp = DateTime.Now,
-                Price = price,
-                BeforeQty = beforeQty,
-                SoldQty = soldQty,
-                Unit = unit,
-                CashierName = cashierName
-            };
-
-            db.Transactions.Add(transaction);
+                transaction = new Transaction
+                {
+                    ProductID = productId,
+                    ProductName = productName,
+                    TimeStamp = DateTime.Today,
+                    Price = price,
+                    BeforeQty = beforeQty,
+                    SoldQty = soldQty,
+                    Unit = unit,
+                    CashierName = cashierName
+                };
+                db.Transactions.Add(transaction);
+            }
+            else
+            {
+                transaction.BeforeQty = beforeQty;
+                transaction.SoldQty += soldQty;
+                db.Transactions.Update(transaction);
+            }
             db.SaveChanges();
         }
 

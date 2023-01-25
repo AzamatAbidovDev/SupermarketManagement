@@ -3,7 +3,7 @@
 
 <div class="form-group">
     <label for="category" style="font-weight: 600; color: #cdcdcd">CATEGORY</label>
-    <select id="category" @bind="SelectedCategoryId" class="form-control">
+    <select multiple size="6" id="category" @bind="SelectedCategoryId" class="form-control" style="font-size: 23px">
         <option selected></option>
         @foreach (var item in categories)
         {
@@ -12,9 +12,9 @@
     </select>
 </div>
 
-@if(productsInCategory != null)
+@if (productsInCategory != null)
 {
-    <table class="table" style="color: white; font-size: 22px">
+    <table class="table" style="color: white; font-size: 23px">
         <thead>
             <tr style="color: #cdcdcd; font-size: 21px">
                 <th>Name</th>
@@ -26,7 +26,7 @@
             @foreach (var item in productsInCategory)
             {
                 <tr @onclick="@(()=>OnSelectProduct(item))"
-                    style="@(item.ProductID == selectedProductId? "color: white; font-weight:600; font-size: 25px; cursor:pointer;":"cursor:pointer")">
+                    style="@(item.ProductID == selectedProductId? "background-color: blue; cursor:pointer;":"cursor:pointer")">
                     <td>@item.Name</td>
                     <td>@item.Quantity</td>
                     <td>@item.Unit</td>
@@ -60,13 +60,16 @@
     protected override void OnInitialized()
     {
         categories = viewCategoriesUseCase.Execute();
-
     }
 
     void OnSelectProduct(Product product)
     {
         OnProductSelected.InvokeAsync(product);
-        if(product != null)
+        if (product != null)
             selectedProductId = product.ProductID;
     }
+
+    ////////
+
+
 }

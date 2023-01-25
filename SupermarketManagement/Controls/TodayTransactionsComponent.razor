@@ -1,4 +1,6 @@
 ﻿@inject IGetTodayTransactionsUseCase getTodayTransactionsUseCase
+@inject IGetProductByIDUseCase getProductByIDUseCase
+@inject IViewProductsUseCase viewProductsUseCase
 
 @if (transactions != null)
 {
@@ -8,7 +10,7 @@
                 <th>Date Time</th>
                 <th>Product</th>
                 <th>Price</th>
-                <th>Qty</th>
+                <th>SoldQty</th>
                 <th>Unit</th>
                 <th>Sold Amt</th>
             </tr>
@@ -20,7 +22,7 @@
                     <td>@item.TimeStamp.ToString("MM/dd hh:mm")</td>
                     <td>@item.ProductName</td>
                     <td>@item.Price</td>
-                    <td>@item.SoldQty</td>
+                    <td><button type="button" style="font-size: 10px" class="btn btn-secondary"><i class="fa-solid fa-minus"></i></button>@item.SoldQty<button type="button" style="font-size: 10px" class="btn btn-secondary"><i class="fa-solid fa-plus"></i></button></td>
                     <td>@item.Unit</td>
                     <td>@(item.SoldQty * item.Price) UZS</td>
                 </tr>
@@ -36,6 +38,7 @@
     public void LoadTransactions(string cashierName)
     {
         transactions = getTodayTransactionsUseCase.Execute(cashierName);
+
         StateHasChanged();
     }
 }

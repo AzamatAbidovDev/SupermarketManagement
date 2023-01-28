@@ -1,32 +1,35 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
 
-        <header class="site-header sticky-top py-1">
-            <nav class="container d-flex flex-column flex-md-row justify-content-between">
-                <AuthorizeView>
-                    <NavLink class="py-2 d-none d-md-inline-block" href="" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span>
-                    </NavLink>
-                </AuthorizeView>
-                <AuthorizeView Policy="AdminOnly">
-                    <NavLink class="py-2 d-none d-md-inline-block" href="categories">
-                        <span class="oi oi-crop" aria-hidden="true"></span> Categories
-                    </NavLink>
-                    <NavLink class="py-2 d-none d-md-inline-block" href="products">
-                        <span class="oi oi-basket" aria-hidden="true"></span> Products
-                    </NavLink>
-                    <NavLink class="py-2 d-none d-md-inline-block" href="transactions">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Reports
-                    </NavLink>
-                </AuthorizeView>
-                <AuthorizeView Policy="CashierOnly">
-                    <NavLink class="py-2 d-none d-md-inline-block" href="cashier_console">
-                        <span class="oi oi-dollar" aria-hidden="true"></span> Sell
-                    </NavLink>
-                </AuthorizeView>
-            </nav>
-        </header>
+<header class="site-header sticky-top py-1">
+    <nav class="container d-flex flex-column flex-md-row justify-content-between">
+        <AuthorizeView Policy="AdminOnly">
+            <NavLink class="py-2 d-none d-md-inline-block" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>
+            </NavLink>
+            <NavLink class="py-2 d-none d-md-inline-block" href="categories">
+                <span class="oi oi-crop" aria-hidden="true"></span> Categories
+            </NavLink>
+            <NavLink class="py-2 d-none d-md-inline-block" href="products">
+                <span class="oi oi-basket" aria-hidden="true"></span> Products
+            </NavLink>
+            <NavLink class="py-2 d-none d-md-inline-block" href="transactions">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Reports
+            </NavLink>
+        </AuthorizeView>
+        </nav>
+        <nav class="d-flex flex-column flex-md-row justify-content-end">
+            <AuthorizeView>
+                <NavLink class="mr-3 d-none d-md-inline-block" href="Identity/Account/Manage">
+                    <span style="color: greenyellow">Your Account</span>
+                </NavLink>
+                <NavLink class="mr-4 d-none d-md-inline-block" href="Identity/Account/Logout?returnUrl=%2F">
+                    <span class="oi oi-account-logout" aria-hidden="true"></span>
+                </NavLink>
+            </AuthorizeView>
+        </nav>
+</header>
 
 <main class="content px-4">
     @Body
 </main>
-

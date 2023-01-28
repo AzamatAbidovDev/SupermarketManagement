@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager navManager
 
 <div class="wrapper">
     <div class="row">
@@ -12,10 +14,30 @@
             <h3 style="color: #cdcdcd">stock and resources. Retail management involves taking responsibility for the successful running of a store!</h3>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col text-center">
-            <LoginDisplay />
-        </div>
-    </div>
+    <AuthorizeView>
+        <NotAuthorized>
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <a href="Identity/Account/Register" class="btn btn-outline-light mr-1 px-4 h-30" style="font-weight: 600; width: 150px">REGISTER</a>
+                    <a href="Identity/Account/Login" class="btn-login btn ml-1 px-4 h-30">LOG IN</a>
+                </div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
+
+@code {
+
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationStateTask { get; set; }
+    AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await authenticationStateTask;
+        var user = authState.User;
+        if(user.HasClaim(x=>x.Value == "Cashier"))
+            navManager.NavigateTo("/cashier_console");
+    }
+}
 

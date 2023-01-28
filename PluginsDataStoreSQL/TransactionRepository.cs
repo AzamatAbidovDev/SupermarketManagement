@@ -10,9 +10,11 @@ namespace PluginsDataStoreSQL
     public class TransactionRepository: ITransactionRepository
     {
         private readonly MarketContext db;
-        public TransactionRepository(MarketContext _db)
+        private readonly IProductRepository productRepository;
+        public TransactionRepository(MarketContext _db, IProductRepository _productRepository)
         {
             db = _db;
+            productRepository = _productRepository;
         }
 
         public IEnumerable<Transaction> Get(string cashierName)
@@ -28,6 +30,31 @@ namespace PluginsDataStoreSQL
                 return db.Transactions.Where(x => EF.Functions.Like(x.CashierName, $"%{cashierName}%") &&
                 x.TimeStamp.Date == date.Date);
         }
+
+        public void MinusButton(string cashierName, int productId)
+        {
+            IEnumerable<Transaction> transactions = GetByDay(cashierName, DateTime.Today);           
+            var transaction = transactions.FirstOrDefault(x => x.ProductID == productId);
+            var product = productRepository.GetProductByID(productId);
+            product.Quantity++;
+            transaction.SoldQty--;
+            transaction.BeforeQty = product.Quantity.Value;
+            
+            db.Transactions.Update(transaction);
+            db.SaveChanges();
+        }
+        public void PlusButton(string cashierName, int productId)
+        {
+            IEnumerable<Transaction> transactions = GetByDay(cashierName, DateTime.Today);
+            var transaction = transactions.FirstOrDefault(x => x.ProductID == productId);
+            var product = productRepository.GetProductByID(productId);
+            product.Quantity--;
+            transaction.SoldQty++;
+            transaction.BeforeQty = product.Quantity.Value;
+            db.Transactions.Update(transaction);
+            db.SaveChanges();
+        }
+
 
         public void Save(string cashierName, int productId, string productName, double price, double beforeQty, double soldQty, string unit)
         {
@@ -49,7 +76,7 @@ namespace PluginsDataStoreSQL
             }
             else
             {
-                transaction.BeforeQty = beforeQty;
+                transaction.BeforeQty -= soldQty;
                 transaction.SoldQty += soldQty;
                 db.Transactions.Update(transaction);
             }

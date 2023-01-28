@@ -3,31 +3,31 @@
 
 @if (!string.IsNullOrWhiteSpace(cashierName))
 {
-    <div class="wrapper">
+    <div class="wrapper">       
         <div class="row">
-        <div class="col-7">
-            <h4 style="color: white">CASHIER'S CONSOLE</h4>
-        </div>
-        <div class="col-2">
-            <label for="cashier" style="font-weight: 600; font-size:22px; color: white">CASHIER NAME: </label>
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <input type="text" id="cashier" class="form-control" @bind-value="cashierName" />
+            <div class="col-7">
+                <h4 style="color: white">CASHIER'S CONSOLE</h4>
+            </div>
+            <div class="col-2">
+                <label for="cashier" style="font-weight: 600; font-size:22px; color: white">CASHIER NAME: </label>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="text" id="cashier" class="form-control" @bind-value="cashierName" />
+                </div>
             </div>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-4">
-            <SelectProductsForSelling OnProductSelected="SelectProduct" />
-            <SellProductsComponent CashierName="@cashierName" SelectedProduct="selectedProduct" OnProductSold="SellProduct" />
+        <br />
+        <div class="row">
+            <div class="col-4">
+                <SelectProductsForSelling OnProductSelected="SelectProduct" CashierName="@cashierName"
+                                          SelectedProduct="selectedProduct" OnProductSold="SellProduct" />
+            </div>
+            <div class="col">
+                <br />
+                <TodayTransactionsComponent @ref="transactionsComponent" />
+            </div>
         </div>
-        <div class="col">
-            <br />
-            <TodayTransactionsComponent @ref="transactionsComponent" />
-        </div>
-    </div>
     </div>
 }
 
@@ -50,6 +50,7 @@
     {
         if (firstRender)
             transactionsComponent.LoadTransactions(cashierName);
+        StateHasChanged();
     }
 
     void SelectProduct(Product product)
@@ -60,4 +61,5 @@
     {
         transactionsComponent.LoadTransactions(cashierName);
     }
+
 }

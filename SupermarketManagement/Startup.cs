@@ -38,10 +38,9 @@ namespace SupermarketManagement
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", p => p.RequireClaim("Position", "Admin"));
-                options.AddPolicy("CashierOnly", p => p.RequireClaim("Position", "Cashier"));
+                options.AddPolicy("CashierOnly", p => p.RequireClaim("Position", "Cashier"));               
             });
-
-
+        
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();

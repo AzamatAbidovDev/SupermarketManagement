@@ -35,7 +35,6 @@
                         <th>Product</th>
                         <th>Qty Before</th>
                         <th>Qty Sold</th>
-                        <th>Qty After</th>
                         <th>Unit</th>
                         <th>Sold Amt</th>
                     </tr>
@@ -48,7 +47,6 @@
                             <td>@item.ProductName</td>
                             <td>@item.BeforeQty</td>
                             <td>@item.SoldQty</td>
-                            <td>@(item.BeforeQty - item.SoldQty)</td>
                             <td>@item.Unit</td>
                             <td style="text-align: right">@(item.SoldQty * item.Price) UZS</td>
                         </tr>
@@ -56,7 +54,7 @@
                 </tbody>
                 <tfoot>
                     <tr style="color: white; font-weight:600; font-size: 23px">
-                        <td colspan="5">&nbsp;</td>
+                        <td colspan="4">&nbsp;</td>
                         <td style="text-align: right"><b>GRAND TOTAL :</b></td>
                         <td style="text-align: right"><b>@transactions.Sum(x => x.Price * x.SoldQty) UZS</b></td>
                     </tr>

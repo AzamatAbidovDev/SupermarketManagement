@@ -35,7 +35,7 @@ h2 {
     font-weight: 600;
 }
 h3 {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 600;
 }
 h4 {
@@ -118,4 +118,20 @@ a, .btn-link {
 .btn-login:hover {
     background-color: rgb(112 173 17);
     color: white;
+}
+.btn-plus-minus:hover {
+    background-color: white;
+    color: black;
+}
+.table-size {
+    font-size: 25px;
+    font-weight: 600;
+    background-color: dimgray;
+    color: black;
+}
+.table-size-category {
+    font-size: 22px;
+    font-weight: 600;
+    background-color: dimgray;
+    color: black;
 }

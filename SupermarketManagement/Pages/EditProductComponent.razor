@@ -12,38 +12,35 @@
 
     @if (product != null)
     {
-        <EditForm Model="product" OnValidSubmit="OnValidSumit">
-            <DataAnnotationsValidator /> <ValidationSummary />
-            <div class="form-group">
-                <label for="name" style="font-weight: 600; color: #cdcdcd">Name</label>
-                <InputText id="name" @bind-Value="product.Name" class="form-control"></InputText>
-            </div>
-            <div class="form-group">
-                <label for="category" style="font-weight: 600; color: #cdcdcd">Category</label>
-                <select id="category" @bind="product.CategoryID" class="form-control">
-                    <option selected></option>
-                    @foreach (var item in categories)
-                    {
-                        <option value="@item.CategoryID">@item.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="price" style="font-weight: 600; color: #cdcdcd">Price</label>
-                <InputNumber id="price" @bind-Value="product.Price" @bind-Value:format="F2" class="form-control"></InputNumber>
-            </div>
-            <div class="form-group">
-                <label for="qty" style="font-weight: 600; color: #cdcdcd">Quantity</label>
-                <InputNumber id="qty" @bind-Value="product.Quantity" class="form-control"></InputNumber>
-            </div>
-            <div class="form-group">
-                <label for="unit" style="font-weight: 600; color: #cdcdcd">Unit</label>
-                <InputText id="unit" @bind-Value="product.Unit" class="form-control"></InputText>
-            </div>
-
-            <button type="submit" class="btn btn-outline-light">Save</button>
-            <button type="button" class="btn btn-dark" @onclick="OnCancel">Cancel</button>
-        </EditForm>
+        <Form Model="product"
+              LabelColSpan="32"
+              WrapperColSpan="40">
+            <FormItem Label="Name" LabelStyle="font-weight: 600; color: #cdcdcd; font-size: 30px">
+                <Input @bind-Value="context.Name" Size="@InputSize.Large" />
+            </FormItem>
+            <FormItem Label="Category" LabelStyle="font-weight: 600; color: #cdcdcd; font-size: 30px">
+                <Select Mode="default" DataSource="categories" Placeholder="Select a category" Size="@InputSize.Large"
+                        @bind-Value="context.CategoryID" LabelName="@nameof(Category.Name)" ValueName="@nameof(Category.CategoryID)">
+                </Select>
+            </FormItem>
+            <FormItem Label="Price" LabelStyle="font-weight: 600; color: #cdcdcd; font-size: 30px">
+                <AntDesign.InputNumber @bind-Value="context.Price" @bind-Value:format="F2" Size="@InputSize.Large" />
+            </FormItem>
+            <FormItem Label="Quantity" LabelStyle="font-weight: 600; color: #cdcdcd; font-size: 30px">
+                <AntDesign.InputNumber @bind-Value="context.Quantity" Size="@InputSize.Large" />
+            </FormItem>
+            <FormItem Label="Unit" LabelStyle="font-weight: 600; color: #cdcdcd; font-size: 30px">
+                <Input @bind-Value="context.Unit" Size="@InputSize.Large" />
+            </FormItem>
+            <FormItem>
+                <Button Type="button" Style="@ButtonType.Primary" Size="@ButtonSize.Large" OnClick="OnValidSumit">
+                    Save
+                </Button>
+                <Button Type="button" Style="background-color: darkslategray; color: white" Size="@ButtonSize.Large" OnClick="OnCancel">
+                    Cancel
+                </Button>
+            </FormItem>
+        </Form>
     }
 </div>
 

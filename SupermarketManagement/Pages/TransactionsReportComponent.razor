@@ -1,7 +1,7 @@
 ﻿@page "/transactions"
 @attribute [Authorize(Policy = "AdminOnly")]
 
-@inject IGetTransactionsUseCase getTransactionsUseCase 
+@inject IGetTransactionsUseCase getTransactionsUseCase
 @inject IJSRuntime jsRuntime
 
 <div class="wrapper">
@@ -28,38 +28,17 @@
     @if (transactions != null)
     {
         <div id="printarea">
-            <table class="table">
-                <thead>
-                    <tr style="color: #cdcdcd; font-size: 25px">
-                        <th>Date Time</th>
-                        <th>Product</th>
-                        <th>Qty Before</th>
-                        <th>Qty Sold</th>
-                        <th>Unit</th>
-                        <th>Sold Amt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in transactions)
-                    {
-                        <tr style="color: white; font-weight:600; font-size: 23px">
-                            <td>@item.TimeStamp.ToString("yyyy-MM-dd  hh:mm")</td>
-                            <td>@item.ProductName</td>
-                            <td>@item.BeforeQty</td>
-                            <td>@item.SoldQty</td>
-                            <td>@item.Unit</td>
-                            <td style="text-align: right">@(item.SoldQty * item.Price) UZS</td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr style="color: white; font-weight:600; font-size: 23px">
-                        <td colspan="4">&nbsp;</td>
-                        <td style="text-align: right"><b>GRAND TOTAL :</b></td>
-                        <td style="text-align: right"><b>@transactions.Sum(x => x.Price * x.SoldQty) UZS</b></td>
-                    </tr>
-                </tfoot>
-            </table>
+            <Table Bordered TableLayout="fixed"
+                   Size="@TableSize.Middle"               
+                   DataSource="@transactions"
+                   >
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="string" Title="Date Time" Property="@(x=>x.TimeStamp.ToString("yyyy-MM-dd"))" />
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="string" Title="Product" Property="x=>x.ProductName" />
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="double" Title="Qty Before" Property="x=>x.BeforeQty" />
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="double" Title="Qty Sold" Property="x=>x.SoldQty" />
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="string" Title="Unit" Property="x=>x.Unit" />
+                <PropertyColumn Class="table-size" TItem="Transaction" TProp="double" Title="Sold Amt" Property="x=>x.SoldQty*x.Price" Style="text-align: right" />
+            </Table>
         </div>
     }
 </div>
@@ -75,7 +54,7 @@
     protected override void OnInitialized()
     {
         startDate = DateTime.Today;
-        endDate = DateTime.Today;        
+        endDate = DateTime.Today;
     }
 
     void LoadTransactions()

@@ -29,6 +29,7 @@ namespace SupermarketManagement
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddAntDesign();
 
             services.AddDbContext<MarketContext> (options=>
             {

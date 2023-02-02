@@ -39,8 +39,9 @@ namespace PluginsDataStoreSQL
             product.Quantity++;
             transaction.SoldQty--;
             transaction.BeforeQty = product.Quantity.Value;
-            
-            db.Transactions.Update(transaction);
+            if (transaction.SoldQty == 0)
+                db.Transactions.Remove(transaction);                    
+            else db.Transactions.Update(transaction);
             db.SaveChanges();
         }
         public void PlusButton(string cashierName, int productId)
@@ -52,6 +53,14 @@ namespace PluginsDataStoreSQL
             transaction.SoldQty++;
             transaction.BeforeQty = product.Quantity.Value;
             db.Transactions.Update(transaction);
+            db.SaveChanges();
+        }
+
+        public void DeleteTransaction(string cashierName, int productId)
+        {
+            IEnumerable<Transaction> transactions = GetByDay(cashierName, DateTime.Today);
+            var transaction = transactions.FirstOrDefault(x => x.ProductID == productId);
+            db.Transactions.Remove(transaction);
             db.SaveChanges();
         }
 

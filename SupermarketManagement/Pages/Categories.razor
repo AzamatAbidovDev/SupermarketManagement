@@ -12,38 +12,26 @@
 
     @if (categories != null)
     {
-        <table class="table table-bordered">
-            <thead>
-                <tr style="color: #cdcdcd; font-size: 27px">
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in categories)
-                {
-                    <tr style="color: white; font-weight: 600; font-size: 22px">
-                        <td>@item.Name</td>
-                        <td>@item.Description</td>
-                        <td>
-                            <button type="button" @onclick="@(()=>OnClickEdit(item))" class="btn" style="background-color:darkslategray; color: white">Edit</button>
-                        </td>
-                        <td>
-                            <button type="button" @onclick="@(()=>DeleteCategory(item))" class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <Table Size="@TableSize.Middle"
+               Bordered
+               DataSource="@categories">
+            <PropertyColumn Class="table-size" TItem="Category" TProp="string" Title="Name" Property="x=>x.Name" />
+            <PropertyColumn Class="table-size-category" TItem="Category" TProp="string" Title="Description" Property="x=>x.Description" />
+            <ActionColumn>
+                <Space>
+                    <SpaceItem><Button Type="button" Size="@ButtonSize.Large" Style="background-color: darkslategray; color: white" OnClick="()=>OnClickEdit(context)">Edit</Button></SpaceItem>
+                    <SpaceItem><Button Type="button" Size="@ButtonSize.Large" Style="background-color: red; color: white" OnClick="()=>DeleteCategory(context)">Delete</Button></SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+
         <Confirmation @ref="confirmation" onCancel="OnCancel" onConfirm="OnConfirm">
             <div style="font-size: 24px; font-weight: 600; color: darkblue">Do you want to delete <span style="color: darkred">@categoryToBeDeleted.Name.ToUpper()</span>?</div>
         </Confirmation>
     }
 
     <br />
-    <button type="button" class="btn btn-primary" @onclick="OnClickAdd">Add Category</button>
+    <Button Type="button" Size="@ButtonSize.Large" Style="background-color: blue; color: white" OnClick="OnClickAdd">Add Category</Button>
 </div>
 
 @code {

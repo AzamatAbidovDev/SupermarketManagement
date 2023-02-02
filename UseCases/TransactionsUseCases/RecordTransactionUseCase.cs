@@ -30,5 +30,9 @@ namespace UseCases
         {
             transactionRepository.PlusButton(cashierName, productId);
         }
+        public void OnDeleteButton(string cashierName, int productId)
+        {
+            transactionRepository.DeleteTransaction(cashierName, productId);
+        }
     }
 }

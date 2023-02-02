@@ -2,7 +2,7 @@
 @inject NavigationManager navManager
 
 <header class="site-header sticky-top py-1">
-    <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <nav class="container d-flex flex-column flex-md-row justify-content-between" style="font-size: 20px">
         <AuthorizeView Policy="AdminOnly">
             <NavLink class="py-2 d-none d-md-inline-block" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span>
@@ -18,7 +18,7 @@
             </NavLink>
         </AuthorizeView>
         </nav>
-        <nav class="d-flex flex-column flex-md-row justify-content-end">
+        <nav class="d-flex flex-column flex-md-row justify-content-end" style="font-size: 20px">
             <AuthorizeView>
                 <NavLink class="mr-3 d-none d-md-inline-block" href="Identity/Account/Manage">
                     <span style="color: greenyellow">Your Account</span>

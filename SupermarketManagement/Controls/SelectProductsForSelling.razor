@@ -3,50 +3,32 @@
 @inject IGetProductByIDUseCase getProductByIDUseCase
 @inject ISellProductUseCase sellProductUseCase
 
-<div class="form-group">
-    <label for="category" style="font-weight: 600; color: #cdcdcd">CATEGORY</label>
-    <select multiple size="6" id="category" @bind="SelectedCategoryId" class="form-control" style="font-size: 23px">
-        <option selected></option>
+<div>
+    <Tabs TabPosition="TabPosition.Top" Size="@TabSize.Large" Style="color: white; font-size: 23px" @bind-ActiveKey="@activeKey" OnChange="OnTabChange">
         @foreach (var item in categories)
-        {
-            <option value="@item.CategoryID">@item.Name</option>
+        {           
+        <TabPane Tab="@item.Name.ToUpper()" Key="@item.CategoryID.ToString()">          
+            @if (productsInCategory != null)
+            {
+            <Table Size="@TableSize.Middle"
+                   Bordered
+                   DataSource="@productsInCategory">
+                <ActionColumn Class="table-size-category" Title="Name"><a @onclick="()=>OnSelectProduct(context)" @ondblclick="()=>SellProduct(context)">@context.Name</a></ActionColumn>
+                <ActionColumn Class="table-size-category" Title="Quantity"><a @onclick="()=>OnSelectProduct(context)" @ondblclick="()=>SellProduct(context)">@context.Quantity</a></ActionColumn>
+                <ActionColumn Class="table-size-category" Title="Unit"><a @onclick="()=>OnSelectProduct(context)" @ondblclick="()=>SellProduct(context)">@context.Unit</a></ActionColumn>
+            </Table>
+            }
+        </TabPane>
         }
-    </select>
+    </Tabs>
 </div>
 
-@if (productsInCategory != null)
-{
-    <table class="table" style="color: white; font-size: 23px">
-        <thead>
-            <tr style="color: #cdcdcd; font-size: 21px">
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Unit</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in productsInCategory)
-            {
-                <tr @onclick="()=>OnSelectProduct(item)"
-                    style="@(item.ProductID == selectedProductId? "background-color: blue; cursor:pointer;":"cursor:pointer")"
-                    @ondblclick="()=>SellProduct(item)">
-                    <td>@item.Name</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Unit</td>
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-}
 @if (productToSell != null)
 {
     @if (!string.IsNullOrWhiteSpace(errorMessage))
     {
         <div class="alert alert-danger">@errorMessage</div>
     }
-    <button type="button" @onclick="()=>SellProduct(SelectedProduct)" class="btn btn-primary">Sell</button>
 }
 
 @code {
@@ -62,6 +44,13 @@
     int selectedCategoryId;
     Product productToSell;
     string errorMessage;
+
+    string activeKey { get; set; } = "1";
+
+    void OnTabChange(string key)
+    {
+        SelectedCategoryId = int.Parse(key);
+    }
 
     int SelectedCategoryId
     {
@@ -125,5 +114,6 @@
         else
             errorMessage = $"{product.Name} only has {product.Quantity} left. It is not enough!";
     }
+
 }
 
